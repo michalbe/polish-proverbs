@@ -36,6 +36,8 @@ var PP = (function() {
     each(urls, getProverbs, function() {
         proverbList = proverbList.map(function(el) {
           return el.innerHTML;
+        }).filter(function(pro){
+          return pro !== 'Aneks:Przysłowia polskie - indeks tematyczny';
         });
         console.log(proverbList.length);
     });
