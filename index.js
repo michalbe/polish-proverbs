@@ -23,7 +23,7 @@ var PP = (function() {
           cb(errors);
           return;
         }
-        cb(null, window.document.querySelectorAll('li > a')[3]);
+        cb(null, window.document.querySelectorAll('li > a'));
       }
     );
   };
@@ -31,9 +31,11 @@ var PP = (function() {
   if (fs.existsSync(PROVERB_FILE)) {
     console.log('we have list');
   } else {
-    getProverbs(function(err, proverb){
-      if (!err){
-        console.log(proverb.innerHTML);
+    getProverbs(function(err, proverbs){
+      if (!err) {
+        for (var i=0, l=proverbs.length; i<l; i++) {
+          console.log(proverbs[i].innerHTML);
+        }
       }
     });
   }
