@@ -26,7 +26,7 @@ var PP = (function() {
         cb(null, window.document.querySelectorAll('li > a')[3]);
       }
     );
-  }
+  };
 
   if (fs.existsSync(PROVERB_FILE)) {
     console.log('we have list');
