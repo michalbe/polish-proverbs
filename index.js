@@ -5,7 +5,7 @@ var fs = require('fs');
 var each = require('async-each');
 
 var PP = (function() {
-  var PROVERB_FILE = __dirname + '/proverbs.txt';
+  var PROVERB_FILE_PATH = __dirname + '/proverbs.txt';
   var host = 'http://pl.wiktionary.org';
   var urls = [
     '/wiki/Kategoria:Polskie_przysłowia',
@@ -30,7 +30,7 @@ var PP = (function() {
     );
   };
 
-  if (fs.existsSync(PROVERB_FILE)) {
+  if (fs.existsSync(PROVERB_FILE_PATH)) {
     console.log('we have list');
   } else {
     each(urls, getProverbs, function() {
@@ -39,7 +39,13 @@ var PP = (function() {
         }).filter(function(pro){
           return pro !== 'Aneks:Przysłowia polskie - indeks tematyczny';
         });
-        console.log(proverbList.length);
+        fs.writeFile(PROVERB_FILE_PATH, proverbList.join('\n'), function(err) {
+          if(err) {
+              console.log(err);
+          } else {
+              console.log("The file was saved in " + PROVERB_FILE_PATH);
+          }
+        });
     });
   }
 });
