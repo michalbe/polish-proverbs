@@ -2,6 +2,7 @@
 
 var jsdom = require('jsdom');
 var fs = require('fs');
+var each = require('async').each;
 
 var PP = (function() {
   var PROVERB_FILE = __dirname + '/proverbs.txt';
@@ -14,16 +15,21 @@ var PP = (function() {
       'w+święto+Trzech+Króli+człek+się+w+kożuch+tuli#mw-pages'
   ];
 
-  var getProverbs = function(cb) {
+  var proverbList = [];
+
+  var getProverbs = function(url, cb) {
     jsdom.env(
-      host+urls[0],
+      host + url,
       [],
       function (errors, window) {
-        if (errors) {
-          cb(errors);
-          return;
-        }
-        cb(null, window.document.querySelectorAll('li > a'));
+        // if (errors) {
+        //   cb(errors);
+        //   return;
+        // }
+        var elements = window.document.querySelectorAll('td li > a');
+
+        proverbList = proverbList.concat(Array.prototype.slice.call(elements));
+        cb();
       }
     );
   };
@@ -31,12 +37,9 @@ var PP = (function() {
   if (fs.existsSync(PROVERB_FILE)) {
     console.log('we have list');
   } else {
-    getProverbs(function(err, proverbs){
-      if (!err) {
-        for (var i=0, l=proverbs.length; i<l; i++) {
-          console.log(proverbs[i].innerHTML);
-        }
-      }
+    each(urls, getProverbs, function() {
+        console.log(proverbList.length);
+        //console.error(proverbs);
     });
   }
 });
