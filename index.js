@@ -22,10 +22,6 @@ var PP = (function() {
       host + url,
       [],
       function (errors, window) {
-        // if (errors) {
-        //   cb(errors);
-        //   return;
-        // }
         var elements = window.document.querySelectorAll('td li > a');
 
         proverbList = proverbList.concat(Array.prototype.slice.call(elements));
@@ -38,8 +34,10 @@ var PP = (function() {
     console.log('we have list');
   } else {
     each(urls, getProverbs, function() {
+        proverbList = proverbList.map(function(el) {
+          return el.innerHTML;
+        });
         console.log(proverbList.length);
-        //console.error(proverbs);
     });
   }
 });
