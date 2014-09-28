@@ -43,7 +43,7 @@ var PP = (function() {
           if(err) {
               console.log(err);
           } else {
-              console.log("The file was saved in " + PROVERB_FILE_PATH);
+              console.log('The file was saved in ' + PROVERB_FILE_PATH);
           }
         });
     });
