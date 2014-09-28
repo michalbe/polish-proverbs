@@ -4,7 +4,7 @@ var jsdom = require('jsdom');
 var fs = require('fs');
 var each = require('async-each');
 
-var PP = (function() {
+var PP = (function(callback) {
   var PROVERB_FILE_PATH = __dirname + '/proverbs.txt';
   var host = 'http://pl.wiktionary.org';
   var urls = [
@@ -30,8 +30,12 @@ var PP = (function() {
     );
   };
 
+  var showProverbs = function() {
+    callback(fs.readFileSync(PROVERB_FILE_PATH).toString());
+  };
+
   if (fs.existsSync(PROVERB_FILE_PATH)) {
-    console.log('we have list');
+    return showProverbs();
   } else {
     each(urls, getProverbs, function() {
         proverbList = proverbList.map(function(el) {
@@ -39,16 +43,15 @@ var PP = (function() {
         }).filter(function(pro){
           return pro !== 'Aneks:Przysłowia polskie - indeks tematyczny';
         });
-        fs.writeFile(PROVERB_FILE_PATH, proverbList.join('\n'), function(err) {
-          if(err) {
-              console.log(err);
-          } else {
-              console.log('The file was saved in ' + PROVERB_FILE_PATH);
+        fs.writeFile(PROVERB_FILE_PATH, proverbList.join('\n'), function(err){
+          if (err) {
+            console.log(err);
+            return;
           }
+          showProverbs();
         });
     });
   }
 });
 
-PP();
 module.exports = PP;
