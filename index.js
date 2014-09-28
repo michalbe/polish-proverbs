@@ -2,7 +2,7 @@
 
 var jsdom = require('jsdom');
 var fs = require('fs');
-var each = require('async').each;
+var each = require('async-each');
 
 var PP = (function() {
   var PROVERB_FILE = __dirname + '/proverbs.txt';
