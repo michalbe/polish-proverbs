@@ -1,5 +1,5 @@
 # polish-proverbs by [@michalbe](http://github.com/michalbe) #
-List of 432 polish proverbs
+List of 432 Polish proverbs
 
 ### How to use? ###
 Install with:
